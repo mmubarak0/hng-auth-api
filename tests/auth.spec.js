@@ -287,6 +287,14 @@ describe('POST /api/organisations/:id/users', () => {
     expect(res.statusCode).toEqual(200);
   });
 
+  // the added user can retrieve the new organisation
+  test('responds with 200 successful get user new organisation', async () => {
+    const res = await request(app).get('/api/organisations')
+      .set('Authorization', `bearer ${user_2_token}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.data.organisations.length).toEqual(2);
+  });
+
   // unauthorized access
   test('responds with 401 unauthorised access', async () => {
     const res = await request(app).post(`/api/organisations/${org_1.orgid}/users`).send({

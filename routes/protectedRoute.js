@@ -133,13 +133,10 @@ router.post('/organisations', verifyToken, async (req, res) => {
 router.post('/organisations/:id/users', verifyToken, async (req, res) => {
   const { id } = req.params;
   const orgQuery = `
-    SELECT "User".userId, "Organisation".orgId, "Organisation".name, "Organisation".description
-    FROM "User"
-    JOIN "user_organisation" ON "User".userId = "user_organisation".userId
-    JOIN "Organisation" ON "user_organisation".orgId = "Organisation".orgId
-    WHERE "User".userId = $1 AND "Organisation".orgid = $2;
+    SELECT * FROM "Organisation"
+    WHERE orgId = $1;
   `;
-  const ttorg = await pool.query(orgQuery, [req.userId, id]);
+  const ttorg = await pool.query(orgQuery, [id]);
   const organisations = ttorg.rows;
   if (organisations.length === 0) {
     return res.status(404).json({ 
