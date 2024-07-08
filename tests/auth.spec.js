@@ -184,7 +184,7 @@ describe('GET /api/users/:id', () => {
   // successful get user This a protected route we need to pass the token
   test('responds with 200 successful get user', async () => {
     const res = await request(app).get(`/api/users/${user_1.userid}`)
-      .set('Authorization', user_1_token);
+      .set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(200);
   });
 
@@ -197,7 +197,7 @@ describe('GET /api/users/:id', () => {
   // user not found
   test('responds with 404 user not found', async () => {
     const res = await request(app).get('/api/users/f0f0f0f0-f0f0-f0f0-f0f0-f0f0f0f0f0f0')
-      .set('Authorization', user_1_token);
+      .set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(404);
   });
 });
@@ -207,7 +207,7 @@ describe('GET /api/organisations', () => {
   // successful get organisations this route is protected
   test('responds with 200 successful get organisations', async () => {
     const res = await request(app).get('/api/organisations')
-      .set('Authorization', user_1_token);
+      .set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(200);
   });
 
@@ -220,7 +220,7 @@ describe('GET /api/organisations', () => {
   // all organisations displayed the user is belongs to
   test('responds with 200 all organisations displayed the user is belongs to', async () => {
     const res = await request(app).get('/api/organisations')
-      .set('Authorization', user_1_token);
+      .set('Authorization', `bearer ${user_1_token}`);
     expect(res.body.data.organisations.length).toEqual(1);
   });
 });
@@ -230,7 +230,7 @@ describe('GET /api/organisations/:id', () => {
   // successful get organisation
   test('responds with 200 successful get organisation', async () => {
     const res = await request(app).get(`/api/organisations/${org_1.orgid}`)
-      .set('Authorization', user_1_token);
+      .set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(200);
   });
 
@@ -243,7 +243,7 @@ describe('GET /api/organisations/:id', () => {
   // organisation not found
   test('responds with 404 organisation not found', async () => {
     const res = await request(app).get('/api/organisations/f0f0f0f0-f0f0-f0f0-f0f0-f0f0f0f0f0f0')
-      .set('Authorization', user_1_token);
+      .set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(404);
   });
 });
@@ -255,7 +255,7 @@ describe('POST /api/organisations', () => {
     const res = await request(app).post('/api/organisations').send({
       name: 'Mody Organisation',
       description: 'Mody Organisation Description',
-    }).set('Authorization', user_1_token);
+    }).set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(201);
   });
 
@@ -272,7 +272,7 @@ describe('POST /api/organisations', () => {
   test('responds with 422 missing name', async () => {
     const res = await request(app).post('/api/organisations').send({
       description: 'Mody Organisation Description',
-    }).set('Authorization', user_1_token);
+    }).set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(422);
   });
 });
@@ -283,7 +283,7 @@ describe('POST /api/organisations/:id/users', () => {
   test('responds with 200 successful add user to organisation', async () => {
     const res = await request(app).post(`/api/organisations/${org_1.orgid}/users`).send({
       userId: user_2.userid,
-    }).set('Authorization', user_1_token);
+    }).set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(200);
   });
 
@@ -299,7 +299,7 @@ describe('POST /api/organisations/:id/users', () => {
   test('responds with 404 user not found', async () => {
     const res = await request(app).post(`/api/organisations/${org_1.orgid}/users`).send({
       userId: 'f0f0f0f0-f0f0-f0f0-f0f0-f0f0f0f0f0f0',
-    }).set('Authorization', user_1_token);
+    }).set('Authorization', `bearer ${user_1_token}`);
     expect(res.statusCode).toEqual(404);
   });
 });
